@@ -1,0 +1,116 @@
+1  cat /etc/resolv.conf 
+    2  cat /etc/hosts
+    3  ip a
+    4  ping 192.168.56.2
+    5  ping 192.168.56.3
+    6  ping 192.168.56.4
+    7  nc -vz 192.168.56.4 6443
+    8  clear
+    9  pwd
+   10  curl -s https://releases.rancher.com/install-docker/20.10.sh | bash
+   11  wget https://releases.rancher.com/install-docker/20.10.sh
+   12  vim 20.10.sh 
+   13  sudo chmod +x 20.10.sh 
+   14  ./20.10.sh 
+   15  dockerd-rootless-setuptool.sh install
+   16  sudo sh -eux <<EOF
+# Install newuidmap & newgidmap binaries
+apt-get install -y uidmap
+EOF
+
+   17  dockerd-rootless-setuptool.sh install
+   18  vim /etc/profile
+   19  sudo vim /etc/profile
+   20  source /etc/profile
+   21  source ~/.bash
+   22*  ~/.bashrc 
+   23  sudo vim /etc/profile
+   24  vim ~/.bash
+   25  vim ~/.bashrc 
+   26  source ~/.bashrc 
+   27  docker container list
+   28  sudo cat /sys/class/dmi/id/product_uuid
+   29  nc 127.0.0.1 6443
+   30  nc -vz 127.0.0.1 6443
+   31  sudo systemctl enable docker
+   32  systemctl daemon-reload
+   33  sudo systemctl daemon-reload
+   34  sudo systemctl restart docker
+   35  systemctl status docker
+   36  # Run these commands as root
+   37  ###Install GO###
+   38  wget https://storage.googleapis.com/golang/getgo/installer_linux
+   39  chmod +x ./installer_linux
+   40  ./installer_linux
+   41  source ~/.bash_profile
+   42  cd cri-dockerd
+   43  mkdir bin
+   44  go build -o bin/cri-dockerd
+   45  mkdir -p /usr/local/bin
+   46  install -o root -g root -m 0755 bin/cri-dockerd /usr/local/bin/cri-dockerd
+   47  cp -a packaging/systemd/* /etc/systemd/system
+   48  sed -i -e 's,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd,' /etc/systemd/system/cri-docker.service
+   49  systemctl daemon-reload
+   50  systemctl enable cri-docker.service
+   51  systemctl enable --now cri-docker.socket
+   52  sudo su
+   53  clear
+   54  sudo apt-get update
+   55  sudo apt-get install -y apt-transport-https ca-certificates curl
+   56  sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+   57  echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+   58  sudo apt-get update
+   59  sudo apt-get install -y kubelet kubeadm kubectl
+   60  sudo apt-mark hold kubelet kubeadm kubectl
+   61  sudo ss -l -p | grep -vE '^(u_|nl )'
+   62  sudo ss -l -p 
+   63  sudo ss -l -p | grep docker
+   64  apt-get update && apt-get upgrade
+   65  sudo apt-get update && apt-get upgrade
+   66  kubeadm
+   67  sudo su
+   68  clear
+   69  sudo apt-get update
+   70  sudo apt-get install -y kubelet kubeadm kubectl
+   71  sudo apt-mark hold kubelet kubeadm kubectl
+   72  sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+   73  curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+   74  cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+
+   75  sudo apt-get update
+   76  sudo apt-get install -y kubelet kubeadm kubectl
+   77  sudo apt-mark hold kubelet kubeadm kubectl
+   78  sudo apt-mark unhold kubelet kubectl kubeadm
+   79  sudo apt-get install -y kubelet kubeadm kubectl
+   80  kubeadm init --pod-network-cidr 10.244.0.0./16 
+   81  #kubeadm init --pod-network-cidr 10.244.0.0/16 --apiserver-advertise-address=192.168.56.2
+   82  ip a
+   83  kubeadm init --pod-network-cidr 10.244.0.0/16 --apiserver-advertise-address=192.168.56.2
+   84  sudo kubeadm init --pod-network-cidr 10.244.0.0/16 --apiserver-advertise-address=192.168.56.2
+   85* 
+   86  sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=192.168.56.2
+   87  sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=192.168.56.2 --cri-socket unix:///var/run/cri-dockerd.sock
+   88  kubeadm reset
+   89* 
+   90  kubeadm reset --cri-socket unix:///var/run/cri-dockerd.sock
+   91  sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=192.168.56.2 --cri-socket unix:///var/run/cri-dockerd.sock
+   92  kubeadm reset --cri-socket unix:///var/run/cri-dockerd.sock -f
+   93  sudo kubeadm reset --cri-socket unix:///var/run/cri-dockerd.sock -f
+   94  iptables -F && iptables -X
+   95  iptables -t nat -F && iptables -t nat -X
+   96  iptables -t raw -F && iptables -t raw -X
+   97  iptables -t mangle -F && iptables -t mangle -X
+   98  systemctl restart docker
+   99  sudo su
+  100  sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=192.168.56.2 --cri-socket unix:///var/run/cri-dockerd.sock
+  101  mkdir -p $HOME/.kube
+  102  kubectl get nodes
+  103  kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+  104  ip a
+  105  nc -vx 192.168.56.2 6443
+  106  nc -vz 192.168.56.2 6443
+  107  kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+  108  kubectl get nodes
+  109  history 
